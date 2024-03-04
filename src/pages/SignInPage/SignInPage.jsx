@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
-import { useState, useContext } from "react"
-import axios from "axios"
+import { useState, useContext, useEffect } from "react"
 
 import api from "../../services/api"
 import { TokenContext } from "../../contexts/TokenContext"
@@ -12,7 +11,12 @@ export default function SignInPage() {
   const [passwordLogin, setPasswordLogin] = useState('')
   const [btn, setBtn] = useState(false)
   const navigate = useNavigate()
-  const { setToken } = useContext(TokenContext)
+  const {localLogin} = useContext(TokenContext)
+
+  useEffect(() => {
+  if(localStorage.getItem('token')) {
+    navigate('/home');
+  }},[navigate])
 
   function login(event) {
     event.preventDefault()
@@ -21,14 +25,14 @@ export default function SignInPage() {
       username: nameLogin,
       password: passwordLogin
     }
+
     if(passwordLogin !== null && passwordLogin !== '' && nameLogin !== null && nameLogin !== ''){
 
-        axios.post(api.login, loginData)
+        api.login(loginData)
           .then(response => {
-            
-            const { token } = response.data
-            setToken({token})
-            localStorage.setItem('token', JSON.stringify(token))
+            const token = response.data
+            console.log(token)
+            localLogin(token)
             navigate('/home')
           })
           .catch((error) => {
@@ -49,10 +53,10 @@ export default function SignInPage() {
       <LeftSideContainer>
         <ContainerLeft>
           <div>
-            <h1>Linkr</h1>
+            <h1>Directories</h1>
           </div>
           <div>
-            <h3>save, share and discover the best links on the web</h3>
+            <h3>Aplicativo de gestão de pastas</h3>
           </div>
         </ContainerLeft>
       </LeftSideContainer>

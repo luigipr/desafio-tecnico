@@ -1,23 +1,21 @@
 import { BrowserRouter,Routes,Route } from "react-router-dom";
 import SignInPage from './pages/SignInPage/SignInPage';
 import styled from "styled-components";
-import { TokenContext } from "./contexts/TokenContext";
-import { useState } from "react";
+import { TokenProvider } from "./contexts/TokenContext";
 import HomePage from "./pages/HomePage/HomePage";
 
 
 function App() {
-  const [token, setToken] = useState(undefined);
 
   return (
     <PagesContainer>
     <BrowserRouter>
-    <TokenContext.Provider value={{token, setToken}}>
+    <TokenProvider>
         <Routes>
         <Route path="/" element={<SignInPage />} />
         <Route path="/home" element={<HomePage />} />
         </Routes>
-        </TokenContext.Provider>
+        </TokenProvider>
     </BrowserRouter>
   </PagesContainer>
   );

@@ -1,15 +1,31 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import { chevronUpOutline, chevronDownOutline } from "ionicons/icons";
 import { TokenContext } from "../../contexts/TokenContext";
 import DirectoryCard from "../../components/DirectoryCard";
+import useToken from "../../hooks/useToken";
+import api from "../../services/api";
+import { jwtDecode } from "jwt-decode";
 
 export default function HomePage() {
   const [arrow, setArrow] = useState(false);
+  const [name, setName] = useState("");
+  const [parent, setParent] = useState("");
   const navigate = useNavigate();
-  const { token, setToken } = useContext(TokenContext);
+  const { token, setToken } = useToken();
+  const [allDirectories, setAllDirectories] = useState([[]])
+  //setToken(localStorage.getItem(token, JSON.parse(token)));
+
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+   }, [navigate, token]);
+
+
 
   function arrowChange() {
     if (!arrow) {
@@ -19,14 +35,34 @@ export default function HomePage() {
     }
   }
 
+  function getAllDirectories() {
+    const promise = api.getAllDirectories(token)
+        promise.then( (answer) => setAllDirectories(answer.data))
+        promise.catch(error => console.log(error.response.data))
+  }
+
+  function postNewDirectory(e){
+    e.preventDefault();
+    const decoded = jwtDecode(token.access);
+
+    const user = decoded.user_id;
+    const newbody = {user, name, parent};
+
+    const promise = api.postNewDirectory(newbody, token);
+    promise.then( answer => {
+
+    });
+    promise.catch( err  => {alert(err.response)});
+  }
+
   function logOut() {
+    localStorage.removeItem("token");
     setToken("");
-    localStorage.clear();
     navigate("/");
   }
 
   return (
-    <>
+    <Page>
       <Container>
         <HeaderUp>
           <Logo>Directories</Logo>
@@ -51,16 +87,33 @@ export default function HomePage() {
       </Container>
 
       <Cards>
-        <DirectoryCard size={50} color="red" text="All directories" />
-        <DirectoryCard size={50} color="red" text="All directories" />
-        <DirectoryCard size={50} color="red" text="All directories" />
-        <DirectoryCard size={50} color="red" text="All directories" />
-        <DirectoryCard size={50} color="red" text="All directories" />
-        <DirectoryCard size={50} color="red" text="All directories" />
+        <DirectoryCard size={50} color="red" text="All directories" onClick={() => getAllDirectories()}/>
+        <DirectoryCard size={50} color="red" text="Create new directory" onClick="a"/>
       </Cards>
-    </>
+
+      <Form>
+      <form onSubmit={postNewDirectory}>
+        <h1>Add new directory</h1>
+        <input placeholder="Directory name"  type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+        <input placeholder="Parent diretory" type="text" value={parent} onChange={ (e) => setParent(e.target.value)}/>
+        <button>Create</button>
+      </form>
+      </Form>
+
+      {/* <DirectoriesContainer>
+      {allDirectories.map(directory => (<DirectoryEntry key={directory.id} directory={directory} />))}
+      </DirectoriesContainer> */}
+
+
+    </Page>
   );
 }
+
+const Page = styled.div`
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+`
 
 const Container = styled.div`
   display: flex;
@@ -129,8 +182,26 @@ const Cards = styled.div`
   height: 500px;
   display: flex;
   padding: 20px;
-  align-items:center;
+  align-items: center;
   justify-content: center;
   gap: 20px;
   background-color: white;
+`;
+
+// const DirectoriesContainer = styled.div`
+//     padding-top: 20px;
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: 15px;
+// `;
+
+const Form = styled.div`
+display: none;
+height: 250px;
+width: 50%;
+display: flex;
+
+flex-direction: column;
+justify-content: center;
+align-items: center;
 `;

@@ -13,10 +13,25 @@ function login(body) {
   return promise;
 }
 
+function getAllDirectories(token) {
+  const promise = axios.get(`${BASE_URL}/directories`, token);
+
+  return promise;
+}
+
+function postNewDirectory(body, token) {
+  const promise = axios.post(`${BASE_URL}/directories`, body, token);
+
+  return promise;
+}
+
 
 
 const api = {
     createConfig,
-    login }
+    login,
+    getAllDirectories,
+    postNewDirectory
+  }
 
 export default api;
