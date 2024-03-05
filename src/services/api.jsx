@@ -14,24 +14,33 @@ function login(body) {
 }
 
 function getAllDirectories(token) {
-  const promise = axios.get(`${BASE_URL}/directories`, token);
+  const auth = createConfig(token.access)
+  const promise = axios.get(`${BASE_URL}/directories`, auth);
 
   return promise;
 }
 
 function postNewDirectory(body, token) {
-  const promise = axios.post(`${BASE_URL}/directories`, body, token);
+  const auth = createConfig(token.access)
+  const promise = axios.post(`${BASE_URL}/directories`, body, auth);
 
   return promise;
 }
 
+function refreshToken(token) {
+  const auth = createConfig(token.access)
+  console.log(auth);
+  const promise = axios.post(`${BASE_URL}/token/refresh`, {refresh: token.refresh}, auth);
 
+  return promise;
+}
 
 const api = {
     createConfig,
     login,
     getAllDirectories,
-    postNewDirectory
+    postNewDirectory,
+    refreshToken
   }
 
 export default api;

@@ -12,9 +12,9 @@ export default function DirectoryEntry({ directory }) {
   return (
     <DirectoryContainer key={id} onClick={() => details()}>
       <p>Id: {id}</p>
-      <p>Id do criador: {user}</p>
-      <p>Nome da pasta: {name}</p>
-      <p>Id da pasta mãe: {parent}</p>
+      <p>Creators Id: {user}</p>
+      <p>Directory Name: {name}</p>
+      <p>Parent directory id: {parent}</p>
     </DirectoryContainer>
   );
 }
