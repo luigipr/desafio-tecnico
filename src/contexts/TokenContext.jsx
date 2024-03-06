@@ -13,13 +13,10 @@ export const TokenProvider = ({ children }) => {
 
   const refreshToken = () => {
     // Send a request to the server to refresh the access token using the refresh token
-    console.log(token);
     const refresh = token.refresh;
     api.refreshToken(token)
       .then(response => {
-        const newToken = response.data;
-        console.log(newToken);
-        localLogin({access: response.data, refresh});
+        localLogin({access: response.data?.access || response.data, refresh});
       })
       .catch(error => {
         console.error('Error refreshing token:', error);

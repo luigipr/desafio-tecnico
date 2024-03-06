@@ -21,14 +21,14 @@ export default function HomePage() {
       navigate("/");
     }
     const intervalId = setInterval(refreshToken, 60000);
-    console.log(token);
     return () => clearInterval(intervalId);
    }, [refreshToken, token]);
-
+//toggle the post card
    const toggleCardDisplay = () => {
     setDisplayCard(!displayCard);
   };
 
+  //post function
   function postNewDirectory(e){
     e.preventDefault();
     const decoded = jwtDecode(token.access);

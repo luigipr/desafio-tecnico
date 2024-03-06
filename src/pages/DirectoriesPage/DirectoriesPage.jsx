@@ -16,9 +16,9 @@ export default function DirectoriesPage() {
     if (!token) {
       navigate("/");
     }
-    console.log(token);
     getAllDirectories();
  }, [token]);
+
 
   function getAllDirectories() {
     const promise = api.getAllDirectories(token);
@@ -33,7 +33,7 @@ export default function DirectoriesPage() {
         <p>All Directories</p>
       </Title>
       <DirectoriesContainer>
-        
+        {/* puts all directories into components in a list */}
         {allDirectories.map((directory) => (
           <DirectoryEntry key={directory.id} directory={directory} />
         ))}

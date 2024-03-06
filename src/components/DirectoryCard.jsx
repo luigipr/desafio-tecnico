@@ -5,6 +5,7 @@ export default function DirectoryEntry({ directory }) {
   const { id, user, name, parent } = directory;
   const navigate = useNavigate();
 
+  //the onclick function to go to that specific directory page
   function details(id) {
     navigate(`/directory/${id}`);
 }

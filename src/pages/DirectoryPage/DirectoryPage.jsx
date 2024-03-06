@@ -8,44 +8,48 @@ import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 
 export default function DirectoryPage() {
-const { directoryId } = useParams();
+const { id } = useParams();
 const {token} = useToken();
 const [directory, setDirectory] = useState([]);
 const [formName, setFormName] = useState('');
 const [formParent, setFormParent] = useState('');
-const [editable, setEditable] = useState(false);
+const [disabled, setDisabled] = useState(true);
+const [edited, setEdited] = useState(false);
 
 useEffect(() => {
-    const promise = api.getDirectoryById(directoryId, token);
+    const promise = api.getDirectoryById(id, token);
     promise.then( (answer) => {
-        setDirectory(answer.data);
-        console.log(answer.data)})
+        setDirectory(answer.data[0]);
+    })
     promise.catch(error => console.log(error.response.data))
-}, []);
+}, [edited]);
 
-
-
-  const { id, user, name, parent } = directory;
   const navigate = useNavigate();
   
-  
-  function deleteDirectory(directory, directoryId, token) {
-    const promise = api.deleteDirectory(directory, directoryId, token);
-    promise.then(window.location.reload());
-    promise.catch((error) => console.log(error.response.data));
+  function deleteDirectory() {
+
+    const data = {user: directory.user,name: directory.name,parent: directory.parent};
+    const promise = api.deleteDirectory(data, id, token);
+    console.log(directory)
+    promise.catch((error) => console.log(error.messaage));
     navigate('/home');
   }
 
   const edit = () => {
-    setEditable(!editable);
+    setDisabled(!disabled);
   };
 
 
   function editDirectory(e) {
     e.preventDefault();
 
+    const newDirectory = {user: directory.user, name: formName, parent: formParent};
 
-  }
+    const promise = api.updateDirectory(newDirectory, id, token);
+    promise.catch((error) => console.log(error.response.data));
+    setDisabled(true) 
+    setEdited(!edited);
+ }
 
   return (
     <Page>
@@ -53,19 +57,19 @@ useEffect(() => {
     <DirectoryContainer key={id}>
       <Left>
         <p>Id: {id}</p>
-        <p>Creators Id: {user}</p>
+        <p>Creators Id: {directory.user}</p>
         <Form onSubmit={editDirectory}>
-        <p>Directory Name: {name}</p>
-          <input placeholder={name} type="text" value={name} readOnly={!editable} onChange={e => setFormName(e.target.value)} />
-          <p>Parent directory name: {parent}</p>
-          <input placeholder={parent} type="text" value={parent} readOnly={!editable} onChange={e => setFormParent(e.target.value)} />
-          <button onClick={editDirectory} display={!editable}>Edit
+        <p>Directory Name: {directory.name}</p>
+          <input placeholder={directory.name} type="text" value={formName} disabled={disabled} onChange={e => setFormName(e.target.value)} />
+          <p>Parent directory name: {directory.parent}</p>
+          <input placeholder={directory.parent} type="text" value={formParent} disabled={disabled} onChange={e => setFormParent(e.target.value)} />
+          <button onClick={editDirectory} disabled={disabled}>Edit
          </button>
         </Form>
       </Left>
       <Right>
-          <EditButton onClick={() => edit()} size="75" color="green"/>
-          <DeleteButton onClick={() => deleteDirectory()} w='110' h='75' color="red" />
+        <button onClick={() => edit()}  ><EditButton size="75" color="green"/></button>
+        <button onClick={() => deleteDirectory()}> <DeleteButton  w='110' h='75' color="red" /></button>
       </Right>
     </DirectoryContainer>
     </Page>
@@ -94,7 +98,7 @@ const Page = styled.div`
 `
 
 const Left = styled.div`
-  width: 65%;
+  width: 60%;
   padding-left: 15px;
   gap: 10px;
 `
@@ -103,6 +107,16 @@ const Right = styled.div`
   width: 35%;
   display: flex;
   justify-content: start;
+  button {
+    background-color: #171717;
+
+  }
+  @media (max-width: 830px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px
+    }
   
 `
 

@@ -31,7 +31,6 @@ export default function SignInPage() {
         api.login(loginData)
           .then(response => {
             const token = response.data
-            console.log(token)
             localLogin(token)
             navigate('/home')
           })

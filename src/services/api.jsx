@@ -29,16 +29,8 @@ function postNewDirectory(body, token) {
 
 function refreshToken(token) {
   const auth = createConfig(token.access)
-  console.log(auth);
+
   const promise = axios.post(`${BASE_URL}/token/refresh`, {refresh: token.refresh}, auth);
-
-  return promise;
-}
-
-function deleteDirectory(directory, directoryId, token) {
-  const auth = createConfig(token.access);
-
-  const promise = axios.delete(`${BASE_URL}/directory/${directoryId}`, directory, auth);
 
   return promise;
 }
@@ -51,6 +43,23 @@ function getDirectoryById(directoryId, token) {
   return promise;
 }
 
+function deleteDirectory(directory, directoryId, token) {
+  console.log(token)
+  const auth = createConfig(token.access);
+  console.log(auth);
+  const promise = axios.delete(`${BASE_URL}/directory/${directoryId}`, directory, auth);
+
+  return promise;
+}
+
+function updateDirectory(directory, directoryId, token) {
+  const auth = createConfig(token.access);
+
+  const promise = axios.put(`${BASE_URL}/directory/${directoryId}`, directory, auth);
+
+  return promise;
+}
+
 const api = {
     createConfig,
     login,
@@ -58,7 +67,8 @@ const api = {
     postNewDirectory,
     refreshToken,
     deleteDirectory,
-    getDirectoryById
+    getDirectoryById,
+    updateDirectory
   }
 
 export default api;
