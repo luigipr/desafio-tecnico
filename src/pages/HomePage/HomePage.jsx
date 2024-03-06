@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { TokenContext } from "../../contexts/TokenContext";
-import DirectoryCard from "../../components/DirectoryCard";
+import DirectoryCard from "../../components/DirectoryItem";
 import useToken from "../../hooks/useToken";
 import api from "../../services/api";
 import { jwtDecode } from "jwt-decode";
@@ -14,7 +14,7 @@ export default function HomePage() {
   const navigate = useNavigate();
   const { token } = useToken();
   const {refreshToken} = useContext(TokenContext)
-  const [form, setForm] = useState(false)
+  const [displayCard, setDisplayCard] = useState(false);
 
   useEffect(() => {
     if (!token) {
@@ -25,10 +25,9 @@ export default function HomePage() {
     return () => clearInterval(intervalId);
    }, [refreshToken, token]);
 
-   function display() {
-    if(form === false) setForm(true);
-    if(form === true) setForm(false);
-   }
+   const toggleCardDisplay = () => {
+    setDisplayCard(!displayCard);
+  };
 
   function postNewDirectory(e){
     e.preventDefault();
@@ -39,7 +38,7 @@ export default function HomePage() {
 
     const promise = api.postNewDirectory(newbody, token);
     promise.then( answer => {
-      setForm(false);
+      setDisplayCard(false);
     });
     promise.catch( err  => {alert(err.response)});
   }
@@ -49,9 +48,9 @@ export default function HomePage() {
       <Header></Header>
       <Cards>
         <DirectoryCard size={50} color="red" text="All directories" onClick={() => {navigate("/directories")}}/>
-        <DirectoryCard onClick={display} size={50} color="red" text="Create new directory"/>
+        <DirectoryCard onClick={toggleCardDisplay} display={displayCard} size={50} color="red" text="Create new directory"/>
       </Cards>
-      <Post>
+      <Post display={displayCard}>
       <form onSubmit={postNewDirectory}>
         <h1>Add new directory</h1>
         <input placeholder="Directory name"  type="text" value={name} onChange={(e) => setName(e.target.value)}/>
@@ -76,17 +75,21 @@ const Cards = styled.div`
   padding: 20px;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 50px;
   background-color: white;
 `;
 
 const Post = styled.div`
-display: none;
+h1{
+  color: black;
+}
+form {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 height: 250px;
 width: 50%;
-display: flex;
-
-flex-direction: column;
-justify-content: center;
-align-items: center;
+display: ${props => (props.display ? 'flex' : 'none')};
+margin: 0 auto;
 `;

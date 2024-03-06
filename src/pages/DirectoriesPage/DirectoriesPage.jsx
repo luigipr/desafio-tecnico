@@ -1,24 +1,24 @@
 import styled from "styled-components";
-import DirectoryEntry from "../../components/DirectoryEntry";
 import Header from "../../components/Header";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useToken from "../../hooks/useToken";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { TokenContext } from "../../contexts/TokenContext";
+import DirectoryEntry from "../../components/DirectoryCard";
 
 export default function DirectoriesPage() {
   const [allDirectories, setAllDirectories] = useState([]);
   const navigate = useNavigate();
   const { token } = useToken();
-  const {refreshToken} = useContext(TokenContext);
 
   useEffect(() => {
     if (!token) {
       navigate("/");
     }
+    console.log(token);
     getAllDirectories();
-  }, [token]);
+ }, [token]);
 
   function getAllDirectories() {
     const promise = api.getAllDirectories(token);
@@ -29,7 +29,11 @@ export default function DirectoriesPage() {
   return (
     <>
       <Header></Header>
+      <Title>
+        <p>All Directories</p>
+      </Title>
       <DirectoriesContainer>
+        
         {allDirectories.map((directory) => (
           <DirectoryEntry key={directory.id} directory={directory} />
         ))}
@@ -38,9 +42,31 @@ export default function DirectoriesPage() {
   );
 }
 
+const Title = styled.div`
+  width:100%;
+  height: 50px;
+  padding-bottom: 200px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p{
+    position: absolute;
+    top: 5px;
+    padding-top: 150px;
+    color: black;
+    font-size: 30px;
+  }
+`
+
 const DirectoriesContainer = styled.div`
   padding-top: 20px;
+  height: 100vh;
+  background-color: white;
   display: flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 1px;
 `;

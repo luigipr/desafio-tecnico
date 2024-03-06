@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { TokenProvider } from "./contexts/TokenContext";
 import HomePage from "./pages/HomePage/HomePage";
 import DirectoriesPage from "./pages/DirectoriesPage/DirectoriesPage";
+import DirectoryPage from "./pages/DirectoryPage/DirectoryPage";
 
 
 function App() {
+  
 
   return (
     <PagesContainer>
@@ -16,6 +18,7 @@ function App() {
         <Route path="/" element={<SignInPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/directories" element={<DirectoriesPage />} />
+        <Route path="/directory/:id" element={<DirectoryPage />} />
         </Routes>
         </TokenProvider>
     </BrowserRouter>

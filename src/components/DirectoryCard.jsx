@@ -1,33 +1,41 @@
-import React from 'react';
-import DirectoryIcon from './DirectoryIcon'; // Importe o ícone
-import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-const DirectoryCard = ({size, color, text}) => (
-  
-  <Card>
+export default function DirectoryEntry({ directory }) {
+  const { id, user, name, parent } = directory;
+  const navigate = useNavigate();
 
-    <DirectoryIcon size={size} color={color} />
-    <Text>{text}</Text>
+  function details(id) {
+    navigate(`/directory/${id}`);
+}
 
-  </Card>
+  return (
+    <DirectoryContainer key={id} onClick={() => details(id)}>
+        <p>Id: {id}</p>
+        <p>Creators Id: {user}</p>
+        <p>Directory Name: {name}</p>
+        <p>Parent directory id: {parent}</p>
+    </DirectoryContainer>
+  );
+}
 
-
-);
-
-export default DirectoryCard;
-
-const Text = styled.p`
-    font-size: 20px;
-`
-
-const Card = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items:center;
-    justify-content: center;
-    width: 150px;
-    height: 120px;
-    border: 5px solid black;
-    border-radius: 30%;
-
-`
+const DirectoryContainer = styled.div`
+  width: 50%;
+  height: 100px;
+  top: 470px;
+  left: 241px;
+  border: 1px;
+  p{
+    color: white;
+  }
+  display: flex;
+  flex-direction: column;
+  background: #171717;
+  border-radius: 15px;
+  gap: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
