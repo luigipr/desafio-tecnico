@@ -13,7 +13,7 @@ Para o projeto foram usadas as tecnologias: Javascript, React, Styled Components
 ## Páginas
 
 Pagina de login
-<img src="https://imgbox.com/AnlXSWfm)" alt="Texto Alternativo">
+[login](https://imgbox.com/AnlXSWfm)
 Homepage
 [home](https://imgbox.com/2akt0yVI)
 Pagina de todas as pastas
