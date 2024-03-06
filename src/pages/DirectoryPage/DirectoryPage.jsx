@@ -27,9 +27,7 @@ useEffect(() => {
   const navigate = useNavigate();
   
   function deleteDirectory() {
-
-    const data = {user: directory.user,name: directory.name,parent: directory.parent};
-    const promise = api.deleteDirectory(data, id, token);
+    const promise = api.deleteDirectory(id, token);
     console.log(directory)
     promise.catch((error) => console.log(error.messaage));
     navigate('/home');

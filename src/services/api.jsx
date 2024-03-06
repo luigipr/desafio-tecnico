@@ -43,11 +43,11 @@ function getDirectoryById(directoryId, token) {
   return promise;
 }
 
-function deleteDirectory(directory, directoryId, token) {
+function deleteDirectory(directoryId, token) {
   console.log(token)
   const auth = createConfig(token.access);
   console.log(auth);
-  const promise = axios.delete(`${BASE_URL}/directory/${directoryId}`, directory, auth);
+  const promise = axios.delete(`${BASE_URL}/directory/${directoryId}`, auth);
 
   return promise;
 }

@@ -17,6 +17,7 @@ export const TokenProvider = ({ children }) => {
     api.refreshToken(token)
       .then(response => {
         localLogin({access: response.data?.access || response.data, refresh});
+        console.log(token)
       })
       .catch(error => {
         console.error('Error refreshing token:', error);

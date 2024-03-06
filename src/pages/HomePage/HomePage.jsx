@@ -27,7 +27,7 @@ export default function HomePage() {
    const toggleCardDisplay = () => {
     setDisplayCard(!displayCard);
   };
-
+  console.log(token)
   //post function
   function postNewDirectory(e){
     e.preventDefault();
@@ -47,8 +47,8 @@ export default function HomePage() {
     <Page>
       <Header></Header>
       <Cards>
-        <DirectoryCard size={50} color="red" text="All directories" onClick={() => {navigate("/directories")}}/>
-        <DirectoryCard onClick={toggleCardDisplay} display={displayCard} size={50} color="red" text="Create new directory"/>
+        <DirectoryCard size={50} color="blue" text="All directories" onClick={() => {navigate("/directories")}}/>
+        <DirectoryCard onClick={toggleCardDisplay} display={displayCard} size={50} color="blue" text="Create new directory"/>
       </Cards>
       <Post display={displayCard}>
       <form onSubmit={postNewDirectory}>
