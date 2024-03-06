@@ -1,8 +1,28 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Directories -
 
-Currently, two official plugins are available:
+Front-End para Directories, um aplicativo administrador de pastas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Link para o deploy](https://desafio-tecnico-liart.vercel.app/)
+
+## Sobre
+
+O Directories front-end é um site onde você pode criar, ver, atualizar ou deletar pastas dentro de um ambiente.
+Para o projeto foram usadas as tecnologias: Javascript, React, Styled Components e Axios.
+
+## Como rodar em desenvolvimento
+
+1. Clone esse repositório
+2. Instale o Node
+3. Instale todas as dependencias
+
+```bash
+npm i
+```
+
+3. Rode a função
+
+```bash
+npm run dev
+```
+
