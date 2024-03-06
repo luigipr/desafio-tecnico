@@ -12,13 +12,13 @@ Para o projeto foram usadas as tecnologias: Javascript, React, Styled Components
 
 ## Páginas
 
-Pagina de login
+1. Pagina de login
 [login](https://imgbox.com/AnlXSWfm)
-Homepage
+2. Homepage
 [home](https://imgbox.com/2akt0yVI)
-Pagina de todas as pastas
+3. Pagina de todas as pastas
 [todas](https://imgbox.com/RNEyT7T7)
-Detalhes de uma pasta
+4. Detalhes de uma pasta
 [uma](https://imgbox.com/KCWh2H1m)
 
 ## Como rodar em desenvolvimento
